@@ -22,4 +22,13 @@ public class DogController {
         return dogManagementService.getAllDogs();
     }
 
+
+    @PatchMapping("/dogs/kind")
+    public void patchDogKind(@RequestParam String name, String kind){ dogManagementService.patchKind(name, kind);}
+
+    @PatchMapping("/dogs/dog")
+    public void patchDog(@RequestParam String name, @RequestBody Dog dog){ dogManagementService.patchDogInfo(name, dog);}
+
+    @PatchMapping("/dogs/medical")
+    public void addMedicalRecord(@RequestParam String name, String medical){dogManagementService.addMedicalRecord(name, medical);}
 }
