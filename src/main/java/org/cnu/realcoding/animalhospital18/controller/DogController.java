@@ -22,4 +22,17 @@ public class DogController {
         return dogManagementService.getAllDogs();
     }
 
+    @GetMapping("/dogs/byname")
+    public Dog getDogByName(@RequestParam String dogName) { return dogManagementService.getDogByName(dogName); }
+
+    @GetMapping("/dogs/byownerName")
+    public Dog getDogByOwnerName(@RequestParam String ownerName) { return dogManagementService.getDogByOwnerName(ownerName);}
+
+    @GetMapping("/dogs/byPhoneNumber")
+    public Dog getDogByPhoneNumber(@RequestParam String phoneNumber) { return dogManagementService.getDogByPhoneNumber(phoneNumber);}
+
+    @GetMapping("/dogs/byNameAndOwnerInfo")
+    public Dog getDogByNameAndOwnerInfo(@RequestParam String name, @RequestParam String ownerName, @RequestParam String phoneNumber){
+        return dogManagementService.getDogByNameAndOwnerInfo(name, ownerName, phoneNumber);
+    }
 }

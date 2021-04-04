@@ -10,9 +10,8 @@ import java.util.List;
 
 @Service
 public class DogManagementService {
-    @Getter
-    @Autowired
 
+    @Autowired
     private DogRepository dogRepository;
 
     public void insertDog(Dog dog) {
@@ -21,5 +20,21 @@ public class DogManagementService {
 
     public List<Dog> getAllDogs() {
         return dogRepository.findAllDog();
+    }
+
+    public Dog getDogByName(String dogName){
+        return dogRepository.getDogByName(dogName);
+    }
+
+    public Dog getDogByOwnerName(String ownerName) {
+        return dogRepository.getDogByOwnerName(ownerName);
+    }
+
+    public Dog getDogByPhoneNumber(String phoneNumber) {
+        return dogRepository.getDogByPhoneNumber(phoneNumber);
+    }
+
+    public Dog getDogByNameAndOwnerInfo(String name, String ownerName, String phoneNumber) {
+        return dogRepository.getDogByNameAndOwnerInfo(name, ownerName, phoneNumber);
     }
 }
