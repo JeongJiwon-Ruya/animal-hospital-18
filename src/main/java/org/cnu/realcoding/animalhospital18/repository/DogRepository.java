@@ -39,6 +39,42 @@ public class DogRepository {
     public List<Dog> findAllDog() {
         return mongoTemplate.findAll(Dog.class);
     }
+
+
+    public Dog getDogByName(String dogName) {
+        Query q = new Query(Criteria.where("name").is(dogName));
+        if(!mongoTemplate.exists(q, Dog.class))
+            throw new DogNotFoundException();
+
+        return mongoTemplate.findOne(q, Dog.class);
+    }
+
+    public Dog getDogByOwnerName(String ownerName) {
+        Query q = new Query(Criteria.where("ownerName").is(ownerName));
+        if(!mongoTemplate.exists(q, Dog.class))
+            throw new DogNotFoundException();
+
+        return mongoTemplate.findOne(q, Dog.class);
+    }
+
+    public Dog getDogByPhoneNumber(String phoneNumber) {
+        Query q = new Query(Criteria.where("ownerPhoneNumber").is(phoneNumber));
+        if(!mongoTemplate.exists(q, Dog.class))
+            throw new DogNotFoundException();
+        return mongoTemplate.findOne(q, Dog.class);
+    }
+
+    public Dog getDogByNameAndOwnerInfo(String name, String ownerName, String phoneNumber) {
+        Query q = Query.query(new Criteria().andOperator(Criteria.where("name").is(name),
+                Criteria.where("ownerName").is(ownerName),
+                Criteria.where("ownerPhoneNumber").is(phoneNumber)));
+
+        if(!mongoTemplate.exists(q, Dog.class))
+            throw new DogNotFoundException();
+
+        return mongoTemplate.findOne(q, Dog.class);
+
+
     // 모든 Dog 반환 함수
 
     public void modifyDog(String name, Dog dog) {
@@ -69,5 +105,6 @@ public class DogRepository {
         return mongoTemplate.exists(
                 Query.query(new Criteria().where("name").is(name)), Dog.class
         );
+
     }
 }

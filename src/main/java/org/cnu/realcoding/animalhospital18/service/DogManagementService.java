@@ -11,9 +11,8 @@ import java.util.List;
 
 @Service
 public class DogManagementService {
-    @Getter
-    @Autowired
 
+    @Autowired
     private DogRepository dogRepository;
 
     public void insertDog(Dog dog) {
@@ -25,9 +24,27 @@ public class DogManagementService {
     }
 
 
+    public Dog getDogByName(String dogName){
+        return dogRepository.getDogByName(dogName);
+    }
+
+    public Dog getDogByOwnerName(String ownerName) {
+        return dogRepository.getDogByOwnerName(ownerName);
+    }
+
+    public Dog getDogByPhoneNumber(String phoneNumber) {
+        return dogRepository.getDogByPhoneNumber(phoneNumber);
+    }
+
+    public Dog getDogByNameAndOwnerInfo(String name, String ownerName, String phoneNumber) {
+        return dogRepository.getDogByNameAndOwnerInfo(name, ownerName, phoneNumber);
+    }
+
+
     public void patchKind(String name, String kind){ dogRepository.modifyDogKind(name, kind);}
 
     public void patchDogInfo(String name, Dog dog){ dogRepository.modifyDog(name, dog);}
 
     public void addMedicalRecord(String name, String medical){}
+
 }
