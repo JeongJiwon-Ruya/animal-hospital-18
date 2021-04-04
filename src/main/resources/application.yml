@@ -5,4 +5,4 @@ spring:
     mongodb:
       host: localhost
       port: 27017
-      database: realcoding-18
+      database: animal-hospital-18
