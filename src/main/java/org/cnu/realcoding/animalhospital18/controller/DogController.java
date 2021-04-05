@@ -43,7 +43,7 @@ public class DogController {
     @PatchMapping("/dogs/dog")
     public void patchDog(@RequestParam String name, @RequestBody Dog dog){ dogManagementService.patchDogInfo(name, dog);}
 
-    @PatchMapping("/dogs/medical")
+    @PatchMapping("/dogs/medicalRecords")
     public void addMedicalRecord(@RequestParam String name, String medical){dogManagementService.addMedicalRecord(name, medical);}
 
 }

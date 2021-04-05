@@ -69,14 +69,15 @@ public class DogRepository {
                 Criteria.where("ownerName").is(ownerName),
                 Criteria.where("ownerPhoneNumber").is(phoneNumber)));
 
-        if(!mongoTemplate.exists(q, Dog.class))
+        if (!mongoTemplate.exists(q, Dog.class))
             throw new DogNotFoundException();
 
         return mongoTemplate.findOne(q, Dog.class);
-
+    }
 
     // 모든 Dog 반환 함수
 
+    // 강아지 정보 수정
     public void modifyDog(String name, Dog dog) {
         if(!existsByDogName(name)){
             throw new DogNotFoundException();
@@ -90,6 +91,7 @@ public class DogRepository {
         mongoTemplate.upsert(query, update, Dog.class);
     }
 
+    // 강아지 정보 수정, 종류
     public void modifyDogKind(String name, String kind){
         if(!existsByDogName(name)){
             throw new DogNotFoundException();
@@ -101,6 +103,18 @@ public class DogRepository {
         mongoTemplate.upsert(query, update, Dog.class);
     }
 
+    // 의료기록 추가
+    public void addMedicalRecordList(String name, String medical){
+        if(!existsByDogName(name)){
+            throw new DogNotFoundException();
+        }
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").is(name));
+        Update update = new Update();
+        update.push("medicalRecords", medical);
+
+        mongoTemplate.upsert(query, update, Dog.class);
+    }
     public boolean existsByDogName(String name){
         return mongoTemplate.exists(
                 Query.query(new Criteria().where("name").is(name)), Dog.class

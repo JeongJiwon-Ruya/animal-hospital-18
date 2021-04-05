@@ -45,6 +45,6 @@ public class DogManagementService {
 
     public void patchDogInfo(String name, Dog dog){ dogRepository.modifyDog(name, dog);}
 
-    public void addMedicalRecord(String name, String medical){}
+    public void addMedicalRecord(String name, String medical){dogRepository.addMedicalRecordList(name, medical);}
 
 }
