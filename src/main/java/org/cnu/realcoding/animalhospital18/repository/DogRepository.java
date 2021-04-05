@@ -78,12 +78,21 @@ public class DogRepository {
     // 모든 Dog 반환 함수
 
     // 강아지 정보 수정
-    public void modifyDog(String name, Dog dog) {
-        if(!existsByDogName(name)){
+    public void modifyDog(String name,
+                          String ownerName,
+                          String ownerPhoneNumber,
+                          Dog dog) {
+        if(!existsByUniqueKey(name,ownerName, ownerPhoneNumber)){
             throw new DogNotFoundException();
         }
+        if(existsByDog(dog)){
+            throw new DogAlreadyExistsException();
+        }
         Query query = new Query();
-        query.addCriteria(Criteria.where("name").is(name));
+        query.addCriteria(Criteria.where("name").is(name))
+             .addCriteria(Criteria.where("ownerName").is(ownerName))
+             .addCriteria(Criteria.where("ownerPhoneNumber").is(ownerPhoneNumber));
+        //query.addCriteria(Criteria.where("name").is(name));
         Update update = new Update();
         update.set("name", dog.getName()).set("kind", dog.getKind())
                 .set("ownerName", dog.getOwnerName()).set("ownerPhoneNumber", dog.getOwnerPhoneNumber());
@@ -92,24 +101,34 @@ public class DogRepository {
     }
 
     // 강아지 정보 수정, 종류
-    public void modifyDogKind(String name, String kind){
-        if(!existsByDogName(name)){
+    public void modifyDogKind(String name,
+                              String ownerName,
+                              String ownerPhoneNumber,
+                              String kind){
+        if(!existsByUniqueKey(name, ownerName, ownerPhoneNumber)){
             throw new DogNotFoundException();
         }
         Query query = new Query();
-        query.addCriteria(Criteria.where("name").is(name));
+        query.addCriteria(Criteria.where("name").is(name))
+             .addCriteria(Criteria.where("ownerName").is(ownerName))
+             .addCriteria(Criteria.where("ownerPhoneNumber").is(ownerPhoneNumber));
         Update update = new Update();
         update.set("kind", kind);
         mongoTemplate.upsert(query, update, Dog.class);
     }
 
     // 의료기록 추가
-    public void addMedicalRecordList(String name, String medical){
-        if(!existsByDogName(name)){
+    public void addMedicalRecordList(String name,
+                                     String ownerName,
+                                     String ownerPhoneNumber,
+                                     String medical){
+        if(!existsByUniqueKey(name, ownerName, ownerPhoneNumber)){
             throw new DogNotFoundException();
         }
         Query query = new Query();
-        query.addCriteria(Criteria.where("name").is(name));
+        query.addCriteria(Criteria.where("name").is(name))
+             .addCriteria(Criteria.where("ownerName").is(ownerName))
+             .addCriteria(Criteria.where("ownerPhoneNumber").is(ownerPhoneNumber));
         Update update = new Update();
         update.push("medicalRecords", medical);
 
@@ -120,5 +139,17 @@ public class DogRepository {
                 Query.query(new Criteria().where("name").is(name)), Dog.class
         );
 
+    }
+
+    public boolean existsByUniqueKey(String name, String OwnerName, String OwnerPhoneNumber){
+        return mongoTemplate.exists(
+                Query.query(new Criteria().andOperator(
+                        Criteria.where("name").is(name),
+                        Criteria.where("ownerName").is(OwnerName),
+                        Criteria.where("ownerPhoneNumber").is(OwnerPhoneNumber)
+                        )
+                ),
+                Dog.class
+        );
     }
 }

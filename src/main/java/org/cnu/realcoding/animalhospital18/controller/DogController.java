@@ -38,12 +38,27 @@ public class DogController {
 
 
     @PatchMapping("/dogs/kind")
-    public void patchDogKind(@RequestParam String name, String kind){ dogManagementService.patchKind(name, kind);}
+    public void patchDogKind(@RequestParam String name,
+                             @RequestParam String OwnerName,
+                             @RequestParam String OwnerPhoneNumber,
+                             String kind){
+        dogManagementService.patchKind(name, OwnerName, OwnerPhoneNumber, kind);
+    }
 
     @PatchMapping("/dogs/dog")
-    public void patchDog(@RequestParam String name, @RequestBody Dog dog){ dogManagementService.patchDogInfo(name, dog);}
+    public void patchDog(@RequestParam String name,
+                         @RequestParam String ownerName,
+                         @RequestParam String ownerPhoneNumber,
+                         @RequestBody Dog dog){
+        dogManagementService.patchDogInfo(name, ownerName, ownerPhoneNumber, dog);
+    }
 
     @PatchMapping("/dogs/medicalRecords")
-    public void addMedicalRecord(@RequestParam String name, String medical){dogManagementService.addMedicalRecord(name, medical);}
+    public void addMedicalRecord(@RequestParam String name,
+                                 @RequestParam String ownerName,
+                                 @RequestParam String ownerPhoneNumber,
+                                 String medical){
+        dogManagementService.addMedicalRecord(name, ownerName, ownerPhoneNumber, medical);
+    }
 
 }

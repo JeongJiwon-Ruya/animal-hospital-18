@@ -41,10 +41,26 @@ public class DogManagementService {
     }
 
 
-    public void patchKind(String name, String kind){ dogRepository.modifyDogKind(name, kind);}
+    public void patchKind(String name,
+                          String ownerName,
+                          String ownerPhoneNumber,
+                          String kind){
+        dogRepository.modifyDogKind(name, ownerName, ownerPhoneNumber, kind);
+    }
 
-    public void patchDogInfo(String name, Dog dog){ dogRepository.modifyDog(name, dog);}
 
-    public void addMedicalRecord(String name, String medical){dogRepository.addMedicalRecordList(name, medical);}
+    public void patchDogInfo(String name,
+                             String ownerName,
+                             String ownerPhoneNumber,
+                             Dog dog){
+        dogRepository.modifyDog(name, ownerName, ownerPhoneNumber, dog);
+    }
+
+    public void addMedicalRecord(String name,
+                                 String ownerName,
+                                 String ownerPhoneNumber,
+                                 String medical){
+        dogRepository.addMedicalRecordList(name, ownerName, ownerPhoneNumber, medical);
+    }
 
 }
